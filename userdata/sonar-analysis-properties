@@ -1,5 +1,5 @@
-sonar.projectKey=vprofile
-sonar.projectName=vprofile-repo
+sonar.projectKey=jprofile
+sonar.projectName=jprofile-repo
 sonar.projectVersion=1.0
 sonar.sources=src/
 sonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/

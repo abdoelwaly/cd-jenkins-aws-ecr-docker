@@ -24,6 +24,9 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin' # Credential name for Nexus Repository in Jenkins
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
+        registryCredential = 'ecr:us-east-1:awscreds'  # Credential name for AWS ECR in Jenkins
+        appRegistry = '831401132372.dkr.ecr.us-west-1.amazonaws.com/jprofileappimg'
+        jprofileRegistry = "https://831401132372.dkr.ecr.us-west-1.amazonaws.com"
     }
 
     stages {
@@ -96,6 +99,29 @@ pipeline {
                 )
             }
         }
+
+          stage('Build App Image') {    # Build Docker image
+            steps {
+                script {
+                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
+                }
+            }
+        }
+
+
+        stage('Upload App Image') {   # Upload Docker image to AWS ECR
+          steps{
+            script {
+              docker.withRegistry( jprofileRegistry, registryCredential ) {
+                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push('latest')
+              }
+            }
+          }
+        }
+
+
+
     }
     post {       # Post-build actions
         always {

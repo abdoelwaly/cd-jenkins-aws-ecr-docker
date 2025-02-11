@@ -1,7 +1,6 @@
 FROM nginx
-LABEL "projects"="poc"
-LABEL "Author"="abdoelwaly"
-
+LABEL "Project"="jprofile"
+LABEL "Author"="abdo_elwaly"
 
 RUN rm -rf /etc/nginx/conf.d/default.conf
-COPY nginpocapp.conf /etc/nginx/conf.d/pocapp.conf
+COPY nginjproapp.conf /etc/nginx/conf.d/jproapp.conf
