@@ -1,4 +1,4 @@
-#project pipeline jenkins project jpro App
+#project pipeline jenkins project jpro App // Jenkinsfile Stage Pipeline
 
 def COLOR_MAP = [           # Slack notification colors
     'SUCCESS': 'good', 
