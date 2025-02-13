@@ -27,6 +27,8 @@ pipeline {
         registryCredential = 'ecr:us-east-1:awscreds'  # Credential name for AWS ECR in Jenkins
         appRegistry = '831401132372.dkr.ecr.us-west-1.amazonaws.com/jprofileappimg'
         jprofileRegistry = "https://831401132372.dkr.ecr.us-west-1.amazonaws.com"
+        cluster = "jprostaging"     # ECS cluster name
+        service = "jproappprodsvc"  # ECS service name
     }
 
     stages {
@@ -118,6 +120,14 @@ pipeline {
               }
             }
           }
+        }
+
+        stage('Deploy to ECS staging') {     # Deploy to ECS staging
+            steps {
+                withAWS(credentials: 'awscreds', region: 'us-eest-1') {
+                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+                } 
+            }
         }
 
 
